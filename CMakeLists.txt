@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.12)
+cmake_minimum_required(VERSION 3.1...3.17)
 
 file(STRINGS ${CMAKE_CURRENT_SOURCE_DIR}/config/version  _VERSION_MAJOR_STRING REGEX "GLEW_MAJOR[ ]*=[ ]*[0-9]+.*")
 string(REGEX REPLACE "GLEW_MAJOR[ ]*=[ ]*([0-9]+)" "\\1" MAJOR_VERSION ${_VERSION_MAJOR_STRING})
@@ -46,9 +46,11 @@ if(MSVC)
 	list(APPEND LIBGLEW_SRCS ${RC_DIR}/glew.rc)
 endif()
 
-if(NOSTD_LIBS)
+if(WIN32 AND NOSTD_LIBS)
 	add_compile_options("-nostdlib")
+	add_link_options("-nostdlib")
 endif()
+unset(NOSTD_LIBS CACHE)
 
 # Use namespaced libraries when supported
 if(NOT CMAKE_VERSION VERSION_LESS 3.14)
