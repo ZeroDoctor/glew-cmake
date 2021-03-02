@@ -33,6 +33,7 @@ option(glew-cmake_BUILD_STATIC "Build the static glew library" ON)
 option(USE_GLU "Use GLU" OFF)
 option(PKG_CONFIG_REPRESENTATIVE_TARGET "Generate pc file for specified target as glew. libglew_static|libglew_shared" OFF)
 option(ONLY_LIBS "Do not build executables" OFF)
+option(NOSTD_LIBS "Do not use std libs (-nostdlib)" OFF)
 
 set(LIBGLEW_SRCS ${SRC_DIR}/glew.c)
 
@@ -43,6 +44,10 @@ endif()
 
 if(MSVC)
 	list(APPEND LIBGLEW_SRCS ${RC_DIR}/glew.rc)
+endif()
+
+if(NOSTD_LIBS)
+	add_compile_options("-nostdlib")
 endif()
 
 # Use namespaced libraries when supported
